@@ -115,11 +115,25 @@ ASGI_APPLICATION = 'config.asgi.application'
 # ============================================================
 # Database — Supabase PostgreSQL
 # ============================================================
+import urllib.parse
+
+def get_supabase_user():
+    user = config('SUPABASE_DB_USER', default='')
+    if user and user != 'postgres':
+        return user
+    
+    url = config('SUPABASE_URL', default='')
+    if url and 'supabase.co' in url:
+        # extracts 'aywnwxvaptmmktjtpmfv' from 'https://aywnwxvaptmmktjtpmfv.supabase.co'
+        project_ref = urllib.parse.urlparse(url).hostname.split('.')[0]
+        return f"postgres.{project_ref}"
+    return 'postgres'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': config('SUPABASE_DB_NAME', default='postgres') or 'postgres',
-        'USER': config('SUPABASE_DB_USER', default='postgres') or 'postgres',
+        'USER': get_supabase_user(),
         'PASSWORD': config('SUPABASE_DB_PASSWORD', default=''),
         'HOST': config('SUPABASE_DB_HOST', default='localhost'),
         'PORT': config('SUPABASE_DB_PORT', default='5432') or '5432',
