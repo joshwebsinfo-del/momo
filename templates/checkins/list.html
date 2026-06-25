@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="hero-panel">
+  <div>
+    <p class="eyebrow">A gentle daily pause</p>
+    <h1>Daily Check-ins</h1>
+    <p class="hero-copy">A little space to notice your mood, share gratitude, and stay connected to the heart of your day.</p>
+  </div>
+</div>
 <div class="card">
-  <h2>Daily Check-ins</h2>
-  <p>Capture your mood, gratitude, and a little note for today.</p>
   <a class="btn" href="{% url 'checkins:create' %}">Add check-in</a>
   <div class="card-list" style="margin-top: 16px;">
     {% for checkin in checkins %}
@@ -13,7 +18,7 @@
       <p>{{ checkin.note|default:'No note added.' }}</p>
     </div>
     {% empty %}
-    <div class="item-card">No check-ins yet.</div>
+    <div class="item-card">No check-ins yet — this can be a calm little ritual for both of us.</div>
     {% endfor %}
   </div>
 </div>

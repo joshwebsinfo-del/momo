@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="hero-panel">
+  <div>
+    <p class="eyebrow">A tender message</p>
+    <h1>Send a private note</h1>
+    <p class="hero-copy">A few gentle words can make the whole day feel softer.</p>
+  </div>
+</div>
 <div class="card">
-  <h2>Send a private note</h2>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}

@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="hero-panel">
+  <div>
+    <p class="eyebrow">Dreaming together</p>
+    <h1>Goal Tracker</h1>
+    <p class="hero-copy">A soft place to grow together — little plans, shared dreams, and the steps that make life feel more intentional.</p>
+  </div>
+</div>
 <div class="card">
-  <h2>Goal Tracker</h2>
   <p><a class="btn" href="{% url 'goals:create' %}">Add a goal</a></p>
 </div>
 <div class="card-list" style="margin-top: 18px;">
@@ -13,7 +19,7 @@
     <p>{{ goal.percent_complete }}% complete</p>
   </div>
   {% empty %}
-  <div class="card">No goals yet.</div>
+  <div class="card">No goals yet — we can start small and build something lovely together.</div>
   {% endfor %}
 </div>
 {% endblock %}

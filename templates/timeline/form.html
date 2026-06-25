@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="hero-panel">
+  <div>
+    <p class="eyebrow">Mark a milestone</p>
+    <h1>Timeline event</h1>
+    <p class="hero-copy">Add a chapter to our story — something worth remembering and revisiting.</p>
+  </div>
+</div>
 <div class="card">
-  <h2>Timeline event</h2>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}

@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="hero-panel">
+  <div>
+    <p class="eyebrow">Our little archive</p>
+    <h1>Memory Gallery</h1>
+    <p class="hero-copy">The moments that make our story feel real — tucked away gently, ready to revisit whenever we want.</p>
+  </div>
+</div>
 <div class="card">
-  <h2>Memory Gallery</h2>
   <form method="get" class="card-list">
     <input type="text" name="q" placeholder="Search memories" value="{{ request.GET.q }}">
     <select name="category">
@@ -28,7 +34,7 @@
     <p>{{ memory.description|truncatechars:120 }}</p>
   </div>
   {% empty %}
-  <div class="card">No memories yet.</div>
+  <div class="card">No memories yet — your first one can be the start of something beautiful.</div>
   {% endfor %}
 </div>
 {% endblock %}

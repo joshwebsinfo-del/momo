@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="hero-panel">
+  <div>
+    <p class="eyebrow">Our shared journey</p>
+    <h1>Love Story Timeline</h1>
+    <p class="hero-copy">A gentle record of the moments that shaped us — from the first spark to the life we are building together.</p>
+  </div>
+</div>
 <div class="card">
-  <h2>Love Story Timeline</h2>
   <p><a class="btn" href="{% url 'timeline:create' %}">Add an event</a></p>
 </div>
 <div class="card-list" style="margin-top: 18px;">
@@ -16,7 +22,7 @@
     </div>
   </div>
   {% empty %}
-  <div class="card">No milestones yet.</div>
+  <div class="card">No milestones yet — we’ll add the first one soon.</div>
   {% endfor %}
 </div>
 {% endblock %}

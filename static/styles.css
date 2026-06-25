@@ -15,7 +15,14 @@ body {
   margin: 0;
   font-family: 'Inter', sans-serif;
   color: var(--text);
-  background: linear-gradient(135deg, #fffafc 0%, #fef3f7 45%, #fff 100%);
+  background-color: #fffafc;
+  background-image:
+    linear-gradient(135deg, rgba(255, 248, 250, 0.86) 0%, rgba(255, 237, 244, 0.78) 40%, rgba(255, 255, 255, 0.9) 100%),
+    url('/static/images/word_mark.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
@@ -28,7 +35,7 @@ body::before, body::after {
   height: 22rem;
   border-radius: 50%;
   filter: blur(60px);
-  opacity: 0.3;
+  opacity: 0.22;
   pointer-events: none;
   z-index: -1;
   animation: drift 12s ease-in-out infinite;
@@ -46,7 +53,7 @@ body::after {
 }
 a { color: var(--primary); text-decoration: none; }
 a:hover { color: var(--primary-2); }
-.page-shell, .landing-shell { position: relative; z-index: 1; }
+.page-shell, .landing-shell { position: relative; z-index: 1; background: transparent; }
 .container { max-width: 1120px; margin: 0 auto; padding: 24px; }
 .nav-shell {
   display: flex; justify-content: space-between; align-items: center; gap: 16px;
@@ -76,14 +83,20 @@ a:hover { color: var(--primary-2); }
   transition: background .2s ease, transform .2s ease;
 }
 .nav-links a:hover { background: var(--accent); transform: translateY(-1px); }
-.hero-panel, .card, .feature-card, .hero-photo-card, .cta-box, .stat-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
+.hero-panel, .card, .feature-card, .hero-photo-card, .cta-box, .stat-card, .story-card {
+  background: rgba(255, 250, 252, 0.84);
+  border: 1px solid rgba(232, 93, 143, 0.16);
   border-radius: 24px;
-  box-shadow: var(--shadow);
+  box-shadow: 0 14px 36px rgba(232, 93, 143, 0.11);
   backdrop-filter: blur(16px);
 }
 .hero-panel { display: grid; grid-template-columns: 1.2fr .9fr; gap: 18px; padding: 24px; margin-bottom: 18px; }
+.story-strip { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 16px 0 20px; }
+.story-card { padding: 16px 18px; transition: transform .2s ease, box-shadow .2s ease; }
+.story-card:hover, .card:hover, .stat-card:hover, .feature-card:hover { transform: translateY(-2px); box-shadow: 0 20px 45px rgba(232, 93, 143, 0.15); }
+.story-card strong { color: var(--primary); display: block; margin-bottom: 6px; }
+.story-card p { margin: 0; line-height: 1.6; color: var(--text); }
+.dashboard-story { margin: 0 0 18px; }
 .eyebrow { text-transform: uppercase; letter-spacing: .24em; font-size: .76rem; font-weight: 700; color: var(--primary); }
 .hero-panel h1, .section-title, .cta-title { font-family: 'Playfair Display', serif; color: var(--primary); }
 .hero-copy, .hero-sub, .section-sub, .cta-sub { color: var(--text); line-height: 1.7; }
@@ -142,7 +155,7 @@ input, textarea, select, button { padding: 10px 12px; border-radius: 12px; borde
 .hero-photo-card--small { max-width: 320px; margin-left: auto; }
 @keyframes drift { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(20px,-10px,0) scale(1.06); } }
 @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
-@media (max-width: 900px) { .landing-hero, .hero-panel { grid-template-columns: 1fr; } .hero-photo-card--small { margin-left: 0; } }
+@media (max-width: 900px) { .landing-hero, .hero-panel { grid-template-columns: 1fr; } .hero-photo-card--small { margin-left: 0; } .story-strip { grid-template-columns: 1fr; } }
 @media (max-width: 760px) {
   .container { padding: 16px; }
   .nav-shell { flex-direction: column; align-items: flex-start; padding: 12px 16px; }

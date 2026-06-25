@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="hero-panel">
+  <div>
+    <p class="eyebrow">Capture a moment</p>
+    <h1>Add a memory</h1>
+    <p class="hero-copy">Save a little piece of us — a photo, a place, a feeling, or a moment worth keeping close.</p>
+  </div>
+</div>
 <div class="card">
-  <h2>Add a memory</h2>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
