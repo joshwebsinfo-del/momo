@@ -1,0 +1,30 @@
+# render.yaml - Render.com deployment configuration for Django project
+services:
+  - type: web
+    name: momo-web
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn config.wsgi:application --bind 0.0.0.0:${PORT}
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: config.settings.production
+      - key: DJANGO_SECRET_KEY
+        fromSecret: DJANGO_SECRET_KEY
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: "*"
+      - key: DATABASE_URL
+        fromSecret: DATABASE_URL
+    # Optional: run migrations after each deploy
+    autoDeploy: true
+    healthCheckPath: "/"
+    # Static files handling (Render can serve static files via the web service)
+    staticPublishPath: "staticfiles"
+    # Set the region if needed
+    region: oregon
+    # Optional: environment variable for collectstatic
+    predeploy:
+      - python manage.py collectstatic --noinput
+      - python manage.py migrate
