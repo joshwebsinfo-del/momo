@@ -1,30 +1,27 @@
-# render.yaml - Render.com deployment configuration for Django project
 services:
   - type: web
-    name: momo-web
+    name: av-app
     env: python
-    plan: free
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn config.wsgi:application --bind 0.0.0.0:${PORT}
+    plan: starter
+    buildCommand: |
+      pip install -r requirements.txt && \
+      python manage.py collectstatic --noinput && \
+      python manage.py migrate
+    startCommand: gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers 3 --error-logfile - --log-level debug
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: config.settings.production
-      - key: DJANGO_SECRET_KEY
-        fromSecret: DJANGO_SECRET_KEY
+      - key: SECRET_KEY
+        sync: false
       - key: DEBUG
         value: "False"
       - key: ALLOWED_HOSTS
-        value: "*"
+        value: "localhost,127.0.0.1,0.0.0.0,momo-vusx.onrender.com"
+      - key: CSRF_TRUSTED_ORIGINS
+        value: "https://momo-vusx.onrender.com"
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
       - key: DATABASE_URL
-        fromSecret: DATABASE_URL
-    # Optional: run migrations after each deploy
-    autoDeploy: true
-    healthCheckPath: "/"
-    # Static files handling (Render can serve static files via the web service)
-    staticPublishPath: "staticfiles"
-    # Set the region if needed
-    region: oregon
-    # Optional: environment variable for collectstatic
-    predeploy:
-      - python manage.py collectstatic --noinput
-      - python manage.py migrate
+        sync: false
