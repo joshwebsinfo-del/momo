@@ -143,6 +143,9 @@ DATABASES = {
         'CONN_MAX_AGE': 60,
     }
 }
+# Debug: Log Supabase user at startup
+import logging
+logging.getLogger('django').info(f"Supabase user: {get_supabase_user()}")
 
 # Default auto field — use UUID in models explicitly
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
