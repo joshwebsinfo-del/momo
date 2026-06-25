@@ -104,39 +104,31 @@ if DATABASE_URL:
         parsed = None
 
     if parsed and parsed.scheme.startswith('postgres'):
+        port = config('SUPABASE_DB_PORT', default='5432') or '5432'
         try:
-            port = parsed.port
+            parsed_port = parsed.port
         except ValueError:
-            port = config('SUPABASE_DB_PORT', default='5432')
+            parsed_port = None
+        if parsed_port is not None:
+            port = str(parsed_port)
 
-        try:
-            DATABASES['default'] = {
-                'ENGINE': 'django.db.backends.postgresql',
-                'NAME': parsed.path.lstrip('/') or config('SUPABASE_DB_NAME', default='postgres'),
-                'USER': parsed.username or config('SUPABASE_DB_USER', default='postgres'),
-                'PASSWORD': parsed.password or config('SUPABASE_DB_PASSWORD', default='postgres'),
-                'HOST': parsed.hostname or config('SUPABASE_DB_HOST', default='localhost'),
-                'PORT': str(port or config('SUPABASE_DB_PORT', default='5432')),
-                'OPTIONS': {'sslmode': 'require'},
-            }
-        except ValueError:
-            DATABASES['default'] = {
-                'ENGINE': 'django.db.backends.postgresql',
-                'NAME': config('SUPABASE_DB_NAME', default='postgres'),
-                'USER': config('SUPABASE_DB_USER', default='postgres'),
-                'PASSWORD': config('SUPABASE_DB_PASSWORD', default='postgres'),
-                'HOST': config('SUPABASE_DB_HOST', default='localhost'),
-                'PORT': config('SUPABASE_DB_PORT', default='5432'),
-                'OPTIONS': {'sslmode': 'require'},
-            }
+        DATABASES['default'] = {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': parsed.path.lstrip('/') or config('SUPABASE_DB_NAME', default='postgres') or 'postgres',
+            'USER': parsed.username or config('SUPABASE_DB_USER', default='postgres') or 'postgres',
+            'PASSWORD': parsed.password or config('SUPABASE_DB_PASSWORD', default='postgres') or 'postgres',
+            'HOST': parsed.hostname or config('SUPABASE_DB_HOST', default='localhost') or 'localhost',
+            'PORT': port,
+            'OPTIONS': {'sslmode': 'require'},
+        }
 elif config('SUPABASE_DB_HOST', default='').strip():
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('SUPABASE_DB_NAME', default='postgres'),
-        'USER': config('SUPABASE_DB_USER', default='postgres'),
-        'PASSWORD': config('SUPABASE_DB_PASSWORD', default='postgres'),
-        'HOST': config('SUPABASE_DB_HOST', default='localhost'),
-        'PORT': config('SUPABASE_DB_PORT', default='5432'),
+        'NAME': config('SUPABASE_DB_NAME', default='postgres') or 'postgres',
+        'USER': config('SUPABASE_DB_USER', default='postgres') or 'postgres',
+        'PASSWORD': config('SUPABASE_DB_PASSWORD', default='postgres') or 'postgres',
+        'HOST': config('SUPABASE_DB_HOST', default='localhost') or 'localhost',
+        'PORT': config('SUPABASE_DB_PORT', default='5432') or '5432',
         'OPTIONS': {'sslmode': 'require'},
     }
 

@@ -6,6 +6,7 @@ Shared across all environments.
 import os
 from pathlib import Path
 from decouple import config, Csv
+import urllib.parse
 
 # ============================================================
 # Paths
@@ -115,33 +116,65 @@ ASGI_APPLICATION = 'config.asgi.application'
 # ============================================================
 # Database — Supabase PostgreSQL
 # ============================================================
-import urllib.parse
 
 def get_supabase_user():
     user = config('SUPABASE_DB_USER', default='')
     if user and user != 'postgres':
         return user
-    
+
     url = config('SUPABASE_URL', default='')
     if url and 'supabase.co' in url:
         # extracts 'aywnwxvaptmmktjtpmfv' from 'https://aywnwxvaptmmktjtpmfv.supabase.co'
-        project_ref = urllib.parse.urlparse(url).hostname.split('.')[0]
-        return f"postgres.{project_ref}"
+        hostname = urllib.parse.urlparse(url).hostname or ''
+        if hostname:
+            project_ref = hostname.split('.')[0]
+            return f"postgres.{project_ref}"
     return 'postgres'
 
-DATABASES = {
-    'default': {
+
+def get_database_config():
+    db_url = config('DATABASE_URL', default='').strip()
+    if db_url:
+        try:
+            parsed = urllib.parse.urlsplit(db_url)
+        except ValueError:
+            parsed = None
+
+        if parsed and parsed.scheme.startswith('postgres'):
+            host = parsed.hostname or config('SUPABASE_DB_HOST', default='localhost') or 'localhost'
+            port = config('SUPABASE_DB_PORT', default='5432') or '5432'
+            try:
+                parsed_port = parsed.port
+            except ValueError:
+                parsed_port = None
+            if parsed_port is not None:
+                port = str(parsed_port)
+
+            return {
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': parsed.path.lstrip('/') or config('SUPABASE_DB_NAME', default='postgres') or 'postgres',
+                'USER': parsed.username or config('SUPABASE_DB_USER', default='postgres') or 'postgres',
+                'PASSWORD': parsed.password or config('SUPABASE_DB_PASSWORD', default='') or '',
+                'HOST': host,
+                'PORT': port,
+                'OPTIONS': {'sslmode': 'require'},
+                'CONN_MAX_AGE': 60,
+            }
+
+    return {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': config('SUPABASE_DB_NAME', default='postgres') or 'postgres',
         'USER': get_supabase_user(),
         'PASSWORD': config('SUPABASE_DB_PASSWORD', default=''),
         'HOST': config('SUPABASE_DB_HOST', default='localhost'),
         'PORT': config('SUPABASE_DB_PORT', default='5432') or '5432',
-        'OPTIONS': {
-            'sslmode': 'require',
-        },
+        'OPTIONS': {'sslmode': 'require'},
         'CONN_MAX_AGE': 60,
     }
+
+
+DATABASES = {
+    'default': get_database_config(),
 }
 # Debug: Log Supabase user at startup
 import logging
