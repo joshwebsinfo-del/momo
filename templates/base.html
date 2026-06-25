@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Love Journey</title>
+    <title>Monalisa & Me</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     {% load static %}
     <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
@@ -14,10 +14,12 @@
     <div class="page-shell">
         <nav class="nav-shell">
             <div class="nav-top">
-                <a class="brand" href="{% url 'accounts:home' %}">💞 Love Journey</a>
+                <a class="brand" href="{% url 'accounts:home' %}">💗 Monalisa & Me</a>
                 <div class="nav-actions">
                     <button class="theme-toggle" type="button" aria-label="Toggle theme">☀️</button>
-                    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
+                    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">
+                        <span></span><span></span><span></span>
+                    </button>
                 </div>
             </div>
             <div class="nav-links" id="primary-nav">

@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Love Journey — A private digital home for your relationship."/>
-  <title>Love Journey — Every Memory Deserves a Home ❤️</title>
+  <meta name="description" content="A soft, personal home for you and Monalisa."/>
+  <title>Monalisa & Me ❤️</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   {% load static %}
   <link rel="stylesheet" href="{% static 'styles.css' %}">
@@ -14,37 +14,37 @@
 <body class="landing-body">
   <div class="landing-shell">
     <nav class="landing-nav">
-      <a href="/" class="landing-nav-brand">💞 Love Journey</a>
+      <a href="/" class="landing-nav-brand">💗 Monalisa & Me</a>
       <div class="landing-nav-links">
         <button class="theme-toggle landing-theme" type="button" aria-label="Toggle theme">☀️</button>
         <a href="{% url 'accounts:login' %}" class="btn-landing-outline">Sign In</a>
-        <a href="{% url 'accounts:register' %}" class="btn-landing-primary">Get Started</a>
+        <a href="{% url 'accounts:register' %}" class="btn-landing-primary">Open our home</a>
       </div>
     </nav>
 
     <section class="landing-hero">
       <div class="hero-particles" aria-hidden="true">
-        <span class="particle">❤️</span>
-        <span class="particle">💕</span>
+        <span class="particle">💗</span>
+        <span class="particle">🌷</span>
         <span class="particle">✨</span>
-        <span class="particle">🌸</span>
-        <span class="particle">💖</span>
-        <span class="particle">🌹</span>
+        <span class="particle">🌙</span>
       </div>
       <div class="hero-content">
-        <div class="hero-eyebrow">Your private love story</div>
-        <h1 class="hero-headline">Every memory<br><em>deserves a home.</em></h1>
-        <p class="hero-sub">A beautifully crafted space exclusively for the two of you — to preserve moments, celebrate milestones, and build a digital archive of your love.</p>
+        <div class="hero-eyebrow">A little place just for us</div>
+        <h1 class="hero-headline">Our love story,<br><em>softly kept alive.</em></h1>
+        <p class="hero-sub">We started loving on 28 October 2024, and this is our quiet corner for memories, voice notes, little surprises, and the beautiful things we share.</p>
         <div class="hero-actions">
-          <a href="{% url 'accounts:register' %}" class="btn-hero-primary">Begin Your Journey <i class="bi bi-arrow-right"></i></a>
-          <a href="#features" class="btn-hero-ghost">See what's inside</a>
+          <a href="{% url 'accounts:register' %}" class="btn-hero-primary">Enter our space <i class="bi bi-arrow-right"></i></a>
+          <a href="#features" class="btn-hero-ghost">See what’s inside</a>
         </div>
       </div>
       <div class="hero-visual">
-        <div class="hero-card-stack">
-          <div class="hero-card hero-card--back"><div class="hc-label">📸 First Date</div><div class="hc-date">June 14, 2023</div></div>
-          <div class="hero-card hero-card--mid"><div class="hc-label">💌 Love Note</div><div class="hc-snippet">"You make every day feel like magic…"</div></div>
-          <div class="hero-card hero-card--front"><div class="hc-days-label">Days Together</div><div class="hc-days-count" id="landingDaysCounter">—</div><div class="hc-days-sub">and counting ❤️</div></div>
+        <div class="hero-photo-card">
+          <img src="{% static 'images/word_mark.png' %}" alt="Monalisa and me">
+          <div class="photo-caption">
+            <span class="date-pill">Since 28 Oct 2024</span>
+            <p>Our favorite moments, tucked into one warm little home.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -52,30 +52,14 @@
     <section class="landing-features" id="features">
       <div class="container">
         <div class="section-header">
-          <h2 class="section-title">Everything your relationship deserves</h2>
-          <p class="section-sub">Thoughtfully designed features that grow with your love story.</p>
+          <h2 class="section-title">A calm place for our sweetest moments</h2>
+          <p class="section-sub">Everything made to feel personal, tender, and simple.</p>
         </div>
         <div class="features-grid">
-          <div class="feature-card"><div class="feature-icon">📸</div><h3 class="feature-title">Memory Gallery</h3><p class="feature-desc">A beautiful home for your photos, videos, and the moments you never want to forget.</p></div>
-          <div class="feature-card"><div class="feature-icon">💌</div><h3 class="feature-title">Love Notes</h3><p class="feature-desc">Send heartfelt messages instantly or save them for future anniversaries and birthdays.</p></div>
-          <div class="feature-card"><div class="feature-icon">⏳</div><h3 class="feature-title">Timeline</h3><p class="feature-desc">A chronological love story — from your first message to every adventure together.</p></div>
-          <div class="feature-card"><div class="feature-icon">🎯</div><h3 class="feature-title">Goal Tracker</h3><p class="feature-desc">Dream together, save together, and celebrate each milestone with joy.</p></div>
-          <div class="feature-card"><div class="feature-icon">🎙️</div><h3 class="feature-title">Voice Messages</h3><p class="feature-desc">Record your voice directly in the browser and send audio messages that feel personal.</p></div>
-          <div class="feature-card"><div class="feature-icon">🎵</div><h3 class="feature-title">Playlist</h3><p class="feature-desc">Curate the soundtrack of your relationship — songs that hold memories and meaning.</p></div>
-          <div class="feature-card"><div class="feature-icon">⏰</div><h3 class="feature-title">Countdowns</h3><p class="feature-desc">Count down to anniversaries, trips, graduations, and every special moment ahead.</p></div>
-          <div class="feature-card"><div class="feature-icon">📊</div><h3 class="feature-title">Statistics</h3><p class="feature-desc">See the beautiful data of your relationship — memories, notes, days together, and more.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="landing-stats">
-      <div class="container">
-        <div class="stats-strip">
-          <div class="stat-item"><span class="stat-number">Private</span><span class="stat-label">Just the two of you</span></div>
-          <div class="stat-divider">❤️</div>
-          <div class="stat-item"><span class="stat-number">Secure</span><span class="stat-label">Encrypted & protected</span></div>
-          <div class="stat-divider">❤️</div>
-          <div class="stat-item"><span class="stat-number">Forever</span><span class="stat-label">Your story, preserved</span></div>
+          <div class="feature-card"><div class="feature-icon">📸</div><h3 class="feature-title">Our memories</h3><p class="feature-desc">A soft home for the photos, videos, and little moments we never want to lose.</p></div>
+          <div class="feature-card"><div class="feature-icon">💌</div><h3 class="feature-title">Love notes</h3><p class="feature-desc">Sweet messages for the days when we want to say “I’m thinking of you.”</p></div>
+          <div class="feature-card"><div class="feature-icon">⏳</div><h3 class="feature-title">Our timeline</h3><p class="feature-desc">The story of us, from our first chapter to the life we’re building.</p></div>
+          <div class="feature-card"><div class="feature-icon">🎙️</div><h3 class="feature-title">Voice notes</h3><p class="feature-desc">A more personal way to share love, even when we’re apart.</p></div>
         </div>
       </div>
     </section>
@@ -83,33 +67,21 @@
     <section class="landing-cta">
       <div class="container">
         <div class="cta-box">
-          <h2 class="cta-title">Your love story starts here.</h2>
-          <p class="cta-sub">Begin building your private digital home today.</p>
-          <a href="{% url 'accounts:register' %}" class="btn-hero-primary btn-cta">Create Your Love Journey <i class="bi bi-heart-fill ms-2"></i></a>
+          <h2 class="cta-title">This is our little love space.</h2>
+          <p class="cta-sub">Made for you, Monalisa, and all the beautiful days ahead.</p>
+          <a href="{% url 'accounts:register' %}" class="btn-hero-primary btn-cta">Open our home <i class="bi bi-heart-fill ms-2"></i></a>
         </div>
       </div>
     </section>
 
     <footer class="landing-footer">
       <div class="container text-center">
-        <p class="footer-brand">💞 Love Journey</p>
-        <p class="footer-tagline">A private space for two.</p>
+        <p class="footer-brand">💗 Monalisa & Me</p>
+        <p class="footer-tagline">A soft place for us.</p>
       </div>
     </footer>
   </div>
 
   <script src="{% static 'app.js' %}"></script>
-  <script>
-    const counter = document.getElementById('landingDaysCounter');
-    if (counter) {
-      let count = 0;
-      const target = 547;
-      const interval = setInterval(() => {
-        count += Math.ceil(target / 60);
-        if (count >= target) { count = target; clearInterval(interval); }
-        counter.textContent = count.toLocaleString();
-      }, 16);
-    }
-  </script>
 </body>
 </html>
