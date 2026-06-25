@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>Relationship Statistics</h2>
+  <div class="stats-grid">
+    <div class="stat-card"><h3>Days Together</h3><p>{{ stats.days_together }}</p></div>
+    <div class="stat-card"><h3>Memories</h3><p>{{ stats.memories }}</p></div>
+    <div class="stat-card"><h3>Photos</h3><p>{{ stats.photos }}</p></div>
+    <div class="stat-card"><h3>Videos</h3><p>{{ stats.videos }}</p></div>
+    <div class="stat-card"><h3>Love Notes</h3><p>{{ stats.notes_sent }}</p></div>
+    <div class="stat-card"><h3>Voice Notes</h3><p>{{ stats.voice_notes }}</p></div>
+    <div class="stat-card"><h3>Goals Completed</h3><p>{{ stats.goals_completed }}</p></div>
+  </div>
+</div>
+{% endblock %}

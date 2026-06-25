@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>Delete voice message?</h2>
+  <form method="post">{% csrf_token %}<button class="btn" type="submit">Delete</button></form>
+</div>
+{% endblock %}

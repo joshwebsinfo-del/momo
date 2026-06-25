@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>Reminders & Calendar</h2>
+  <p>Plan special moments, date nights, and important rituals.</p>
+  <a class="btn" href="{% url 'reminders:create' %}">Add reminder</a>
+  <div class="card-list" style="margin-top: 16px;">
+    {% for reminder in reminders %}
+    <div class="item-card">
+      <h3>{{ reminder.title }}</h3>
+      <p>{{ reminder.reminder_date }}</p>
+      <p>{{ reminder.note|default:'No notes yet.' }}</p>
+      {% if reminder.is_done %}
+      <span class="badge done">Done</span>
+      {% else %}
+      <a class="btn secondary" href="{% url 'reminders:update' reminder.pk %}">Mark / Edit</a>
+      {% endif %}
+    </div>
+    {% empty %}
+    <div class="item-card">No reminders yet.</div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

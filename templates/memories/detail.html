@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>{{ memory.title }}</h2>
+  <p>{{ memory.category }} • {{ memory.memory_date }} • {{ memory.location }}</p>
+  <p>{{ memory.description }}</p>
+  {% if memory.photo %}<img src="{{ memory.photo.url }}" alt="{{ memory.title }}" style="width: 100%; border-radius: 12px;" />{% endif %}
+  {% if memory.video %}<video controls style="width: 100%;"><source src="{{ memory.video.url }}" type="video/mp4"></video>{% endif %}
+  <div class="nav-links">
+    <a class="btn secondary" href="{% url 'memories:update' memory.pk %}">Edit</a>
+    <a class="btn secondary" href="{% url 'memories:delete' memory.pk %}">Delete</a>
+  </div>
+</div>
+<div class="card" style="margin-top: 16px;">
+  <h3>Comments</h3>
+  <form method="post">{% csrf_token %}{{ comment_form.as_p }}<button class="btn" type="submit">Comment</button></form>
+  {% for comment in comments %}
+  <div class="item-card"><strong>{{ comment.author.username }}</strong><p>{{ comment.message }}</p></div>
+  {% empty %}<p>No comments yet.</p>{% endfor %}
+</div>
+{% endblock %}

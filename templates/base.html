@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Journey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <nav class="nav-shell">
+        <div class="nav-top">
+            <a class="brand" href="{% url 'accounts:home' %}">Love Journey</a>
+            <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
+        </div>
+        <div class="nav-links" id="primary-nav">
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboard:home' %}">Dashboard</a>
+                <a href="{% url 'memories:list' %}">Memories</a>
+                <a href="{% url 'timeline:list' %}">Timeline</a>
+                <a href="{% url 'notes:list' %}">Notes</a>
+                <a href="{% url 'goals:list' %}">Goals</a>
+                <a href="{% url 'checkins:list' %}">Check-ins</a>
+                <a href="{% url 'reminders:list' %}">Reminders</a>
+                <a href="{% url 'messages:list' %}">Messages</a>
+                <a href="{% url 'notifications:list' %}">Notifications</a>
+                <a href="{% url 'accounts:profile' %}">Profile</a>
+                <a href="{% url 'accounts:logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'accounts:login' %}">Login</a>
+                <a href="{% url 'accounts:register' %}">Join</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main class="container">
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

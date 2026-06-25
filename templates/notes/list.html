@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>Love Notes</h2>
+  <p><a class="btn" href="{% url 'notes:create' %}">Send a note</a></p>
+</div>
+<div class="card-list" style="margin-top: 18px;">
+  {% for note in notes %}
+  <div class="item-card">
+    <h3>{{ note.title }}</h3>
+    <p>{{ note.message }}</p>
+    <small>Scheduled for {{ note.scheduled_for|default:'now' }}</small>
+  </div>
+  {% empty %}
+  <div class="card">No notes yet.</div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>Love Story Timeline</h2>
+  <p><a class="btn" href="{% url 'timeline:create' %}">Add an event</a></p>
+</div>
+<div class="card-list" style="margin-top: 18px;">
+  {% for event in events %}
+  <div class="item-card">
+    <h3>{{ event.title }}</h3>
+    <p>{{ event.event_date }}</p>
+    <p>{{ event.description }}</p>
+    <div class="nav-links">
+      <a href="{% url 'timeline:update' event.pk %}">Edit</a>
+      <a href="{% url 'timeline:delete' event.pk %}">Delete</a>
+    </div>
+  </div>
+  {% empty %}
+  <div class="card">No milestones yet.</div>
+  {% endfor %}
+</div>
+{% endblock %}

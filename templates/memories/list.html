@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>Memory Gallery</h2>
+  <form method="get" class="card-list">
+    <input type="text" name="q" placeholder="Search memories" value="{{ request.GET.q }}">
+    <select name="category">
+      <option value="">All categories</option>
+      {% for category in categories %}
+      <option value="{{ category }}" {% if request.GET.category == category %}selected{% endif %}>{{ category }}</option>
+      {% endfor %}
+    </select>
+    <select name="year">
+      <option value="">All years</option>
+      {% for year in years %}
+      <option value="{{ year }}" {% if request.GET.year == year|stringformat:'s' %}selected{% endif %}>{{ year }}</option>
+      {% endfor %}
+    </select>
+    <button class="btn" type="submit">Filter</button>
+  </form>
+  <p><a class="btn" href="{% url 'memories:create' %}">Add a memory</a></p>
+</div>
+<div class="card-list" style="margin-top: 18px;">
+  {% for memory in memories %}
+  <div class="item-card">
+    <h3><a href="{% url 'memories:detail' memory.pk %}">{{ memory.title }}</a></h3>
+    <p>{{ memory.category }} • {{ memory.memory_date }}</p>
+    <p>{{ memory.description|truncatechars:120 }}</p>
+  </div>
+  {% empty %}
+  <div class="card">No memories yet.</div>
+  {% endfor %}
+</div>
+{% endblock %}

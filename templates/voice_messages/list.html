@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>Voice Messages</h2>
+  <p><a class="btn" href="{% url 'voice_messages:create' %}">Leave a voice note</a></p>
+</div>
+<div class="card-list" style="margin-top: 18px;">
+  {% for voice_message in voice_messages %}
+  <div class="item-card">
+    <audio controls src="{{ voice_message.audio.url }}"></audio>
+    <p>{{ voice_message.created_at }}</p>
+    <a href="{% url 'voice_messages:delete' voice_message.pk %}">Delete</a>
+  </div>
+  {% empty %}
+  <div class="card">No voice notes yet.</div>
+  {% endfor %}
+</div>
+{% endblock %}

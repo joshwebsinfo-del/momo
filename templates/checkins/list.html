@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+  <h2>Daily Check-ins</h2>
+  <p>Capture your mood, gratitude, and a little note for today.</p>
+  <a class="btn" href="{% url 'checkins:create' %}">Add check-in</a>
+  <div class="card-list" style="margin-top: 16px;">
+    {% for checkin in checkins %}
+    <div class="item-card">
+      <h3>{{ checkin.check_in_date }}</h3>
+      <p><strong>Mood:</strong> {{ checkin.mood|default:'—' }}</p>
+      <p><strong>Gratitude:</strong> {{ checkin.gratitude|default:'—' }}</p>
+      <p>{{ checkin.note|default:'No note added.' }}</p>
+    </div>
+    {% empty %}
+    <div class="item-card">No check-ins yet.</div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

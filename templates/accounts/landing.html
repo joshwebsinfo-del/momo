@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="hero">
+  <section class="hero-card">
+    <p class="eyebrow">A private home for your love story</p>
+    <h1>Every memory deserves a home.</h1>
+    <p>Preserve your best moments, celebrate milestones, keep private notes, and build a beautiful archive for the two of you.</p>
+    <div class="nav-links">
+      <a class="btn" href="{% url 'accounts:register' %}">Begin your journey</a>
+      <a class="btn secondary" href="{% url 'accounts:login' %}">Welcome back</a>
+    </div>
+  </section>
+  <section class="card">
+    <h3>What you can do</h3>
+    <ul>
+      <li>Store memories and media</li>
+      <li>Share private love notes</li>
+      <li>Track goals and countdowns</li>
+      <li>Celebrate milestones with a timeline</li>
+    </ul>
+  </section>
+</div>
+{% endblock %}
