@@ -1,51 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Love Journey</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
 </head>
 <body>
-    <nav class="nav-shell">
-        <div class="nav-top">
-            <a class="brand" href="{% url 'accounts:home' %}">Love Journey</a>
-            <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
-        </div>
-        <div class="nav-links" id="primary-nav">
-            {% if user.is_authenticated %}
-                <a href="{% url 'dashboard:home' %}">Dashboard</a>
-                <a href="{% url 'memories:list' %}">Memories</a>
-                <a href="{% url 'timeline:list' %}">Timeline</a>
-                <a href="{% url 'notes:list' %}">Notes</a>
-                <a href="{% url 'goals:list' %}">Goals</a>
-                <a href="{% url 'checkins:list' %}">Check-ins</a>
-                <a href="{% url 'reminders:list' %}">Reminders</a>
-                <a href="{% url 'messages:list' %}">Messages</a>
-                <a href="{% url 'notifications:list' %}">Notifications</a>
-                <a href="{% url 'accounts:profile' %}">Profile</a>
-                <a href="{% url 'accounts:logout' %}">Logout</a>
-            {% else %}
-                <a href="{% url 'accounts:login' %}">Login</a>
-                <a href="{% url 'accounts:register' %}">Join</a>
-            {% endif %}
-        </div>
-    </nav>
-
-    <main class="container">
-        {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                    <div class="message {{ message.tags }}">{{ message }}</div>
-                {% endfor %}
+    <div class="page-shell">
+        <nav class="nav-shell">
+            <div class="nav-top">
+                <a class="brand" href="{% url 'accounts:home' %}">💞 Love Journey</a>
+                <div class="nav-actions">
+                    <button class="theme-toggle" type="button" aria-label="Toggle theme">☀️</button>
+                    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
+                </div>
             </div>
-        {% endif %}
-        {% block content %}{% endblock %}
-    </main>
+            <div class="nav-links" id="primary-nav">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'dashboard:home' %}">Dashboard</a>
+                    <a href="{% url 'memories:list' %}">Memories</a>
+                    <a href="{% url 'timeline:list' %}">Timeline</a>
+                    <a href="{% url 'notes:list' %}">Notes</a>
+                    <a href="{% url 'goals:list' %}">Goals</a>
+                    <a href="{% url 'checkins:list' %}">Check-ins</a>
+                    <a href="{% url 'reminders:list' %}">Reminders</a>
+                    <a href="{% url 'messages:list' %}">Messages</a>
+                    <a href="{% url 'notifications:list' %}">Notifications</a>
+                    <a href="{% url 'accounts:profile' %}">Profile</a>
+                    <a href="{% url 'accounts:logout' %}">Logout</a>
+                {% else %}
+                    <a href="{% url 'accounts:login' %}">Login</a>
+                    <a href="{% url 'accounts:register' %}">Join</a>
+                {% endif %}
+            </div>
+        </nav>
 
-    <script src="/static/app.js"></script>
+        <main class="container">
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="message {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    <script src="{% static 'app.js' %}"></script>
 </body>
 </html>

@@ -1,53 +1,70 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Your love dashboard</h1>
-<div class="stats-grid">
-  <div class="stat-card"><h3>Days Together</h3><p>{{ days_together }}</p></div>
-  <div class="stat-card"><h3>Next Anniversary</h3><p>{{ next_anniversary }}</p></div>
-  <div class="stat-card"><h3>Recent Memories</h3><p>{{ stats.memories }}</p></div>
-  <div class="stat-card"><h3>Notes</h3><p>{{ stats.notes }}</p></div>
-  <div class="stat-card"><h3>Unread Alerts</h3><p>{{ unread_notifications }}</p></div>
-</div>
-<div class="grid">
-  <section class="card">
-    <h3>Recent Memories</h3>
-    {% for memory in memories %}
-      <div class="item-card"><strong>{{ memory.title }}</strong><p>{{ memory.memory_date }}</p></div>
-    {% empty %}<p>No memories yet.</p>{% endfor %}
+<div class="dashboard-shell">
+  <section class="hero-panel">
+    <div>
+      <p class="eyebrow">Your private love dashboard</p>
+      <h1>Your love dashboard</h1>
+      <h2>Every beautiful moment, in one place.</h2>
+      <p class="hero-copy">Celebrate your story with memories, notes, goals, and gentle reminders that feel as special as your relationship.</p>
+    </div>
+    <div class="hero-badge">
+      <span>💖</span>
+      <strong>{{ days_together }} days together</strong>
+      <small>{% if next_anniversary %}Next milestone: {{ next_anniversary }}{% else %}Start your story today{% endif %}</small>
+    </div>
   </section>
-  <section class="card">
-    <h3>Unread Love Notes</h3>
-    {% for note in notes %}
-      <div class="item-card"><strong>{{ note.title }}</strong><p>{{ note.message|truncatechars:80 }}</p></div>
-    {% empty %}<p>No notes yet.</p>{% endfor %}
-  </section>
-  <section class="card">
-    <h3>Current Goals</h3>
-    {% for goal in goals %}
-      <div class="item-card"><strong>{{ goal.title }}</strong><p>{{ goal.percent_complete }}% complete</p></div>
-    {% empty %}<p>No goals yet.</p>{% endfor %}
-  </section>
-  <section class="card">
-    <h3>Timeline</h3>
-    {% for event in timeline_events %}
-      <div class="item-card"><strong>{{ event.title }}</strong><p>{{ event.event_date }}</p></div>
-    {% empty %}<p>No timeline events yet.</p>{% endfor %}
-  </section>
-  <section class="card">
-    <h3>Latest Check-ins</h3>
-    {% for checkin in checkins %}
-      <div class="item-card"><strong>{{ checkin.check_in_date }}</strong><p>{{ checkin.mood|default:'No mood logged' }}</p></div>
-    {% empty %}<p>No check-ins yet.</p>{% endfor %}
-  </section>
-</div>
-<div class="card" style="margin-top: 20px;">
-  <h3>Quick actions</h3>
-  <div class="nav-links">
-    <a class="btn" href="{% url 'memories:create' %}">Add a memory</a>
-    <a class="btn secondary" href="{% url 'timeline:create' %}">Add a timeline event</a>
-    <a class="btn secondary" href="{% url 'notes:create' %}">Send a note</a>
-    <a class="btn secondary" href="{% url 'voice_messages:create' %}">Leave a voice note</a>
-    <a class="btn secondary" href="{% url 'checkins:create' %}">Add a check-in</a>
+
+  <div class="stats-grid">
+    <div class="stat-card"><h3>Days Together</h3><p>{{ days_together }}</p></div>
+    <div class="stat-card"><h3>Next Anniversary</h3><p>{% if next_anniversary %}{{ next_anniversary }}{% else %}Soon{% endif %}</p></div>
+    <div class="stat-card"><h3>Memories</h3><p>{{ stats.memories }}</p></div>
+    <div class="stat-card"><h3>Notes</h3><p>{{ stats.notes }}</p></div>
+    <div class="stat-card"><h3>Unread Alerts</h3><p>{{ unread_notifications }}</p></div>
+  </div>
+
+  <div class="grid">
+    <section class="card glow-card">
+      <h3>Recent Memories</h3>
+      {% for memory in memories %}
+        <div class="item-card"><strong>{{ memory.title }}</strong><p>{{ memory.memory_date }}</p></div>
+      {% empty %}<p>No memories yet — add your first one and start building the story.</p>{% endfor %}
+    </section>
+    <section class="card glow-card">
+      <h3>Unread Love Notes</h3>
+      {% for note in notes %}
+        <div class="item-card"><strong>{{ note.title }}</strong><p>{{ note.message|truncatechars:80 }}</p></div>
+      {% empty %}<p>No notes yet. A little love goes a long way.</p>{% endfor %}
+    </section>
+    <section class="card glow-card">
+      <h3>Current Goals</h3>
+      {% for goal in goals %}
+        <div class="item-card"><strong>{{ goal.title }}</strong><p>{{ goal.percent_complete }}% complete</p></div>
+      {% empty %}<p>No goals yet. Dream big together.</p>{% endfor %}
+    </section>
+    <section class="card glow-card">
+      <h3>Timeline</h3>
+      {% for event in timeline_events %}
+        <div class="item-card"><strong>{{ event.title }}</strong><p>{{ event.event_date }}</p></div>
+      {% empty %}<p>No timeline moments yet.</p>{% endfor %}
+    </section>
+    <section class="card glow-card">
+      <h3>Latest Check-ins</h3>
+      {% for checkin in checkins %}
+        <div class="item-card"><strong>{{ checkin.check_in_date }}</strong><p>{{ checkin.mood|default:'No mood logged' }}</p></div>
+      {% empty %}<p>No check-ins yet. Share how you feel today.</p>{% endfor %}
+    </section>
+  </div>
+
+  <div class="card action-card">
+    <h3>Quick actions</h3>
+    <div class="action-row">
+      <a class="btn" href="{% url 'memories:create' %}">Add a memory</a>
+      <a class="btn secondary" href="{% url 'timeline:create' %}">Add a timeline event</a>
+      <a class="btn secondary" href="{% url 'notes:create' %}">Send a note</a>
+      <a class="btn secondary" href="{% url 'voice_messages:create' %}">Leave a voice note</a>
+      <a class="btn secondary" href="{% url 'checkins:create' %}">Add a check-in</a>
+    </div>
   </div>
 </div>
 {% endblock %}
