@@ -1,0 +1,27 @@
+<!-- Add logo to base.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  ... (existing head) ...
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+{% if user.is_authenticated %}
+  <div class="lj-sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <!-- Use generated word‑mark logo -->
+      <img src="{% static 'images/word_mark.png' %}" alt="AA" class="brand-logo" style="height:32px;">
+      <div class="brand-text">
+        <span class="brand-title">Love Journey</span>
+        {% if couple_settings %}<span class="brand-subtitle">{{ couple_settings.couple_name }}</span>{% endif %}
+      </div>
+    </div>
+    ... (rest unchanged) ...
+  </div>
+{% endif %}
+... (rest unchanged) ...
+</body>
+</html>

@@ -1,0 +1,94 @@
+/* base.css – Design tokens and dark mode */
+:root {
+  /* Light theme */
+  --color-primary: hsl(210, 60%, 55%);
+  --color-accent: hsl(340, 70%, 55%);
+  --color-bg: hsl(0, 0%, 98%);
+  --color-surface: hsl(0, 0%, 100%);
+  --color-text: hsl(210, 10%, 15%);
+  --color-muted: hsl(210, 10%, 70%);
+}
+
+[data-theme="dark"] {
+  /* Dark theme overrides */
+  --color-primary: hsl(210, 60%, 65%);
+  --color-accent: hsl(340, 70%, 65%);
+  --color-bg: hsl(210, 30%, 10%);
+  --color-surface: hsl(210, 20%, 15%);
+  --color-text: hsl(0, 0%, 95%);
+  --color-muted: hsl(210, 10%, 40%);
+}
+
+/* Global resets */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* Utility classes */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.flex {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.mt-2 {margin-top: 0.5rem;}
+.mb-2 {margin-bottom: 0.5rem;}
+.pt-2 {padding-top: 0.5rem;}
+.pb-2 {padding-bottom: 0.5rem;}
+
+/* Card base */
+.card {
+  background: var(--color-surface);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  padding: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+/* Button */
+.btn {
+  display: inline-block;
+  background: var(--color-primary);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.btn:hover {
+  background: var(--color-accent);
+}
+
+/* Dark mode transition */
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}

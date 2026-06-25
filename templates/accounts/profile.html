@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}My Profile — Love Journey{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+  <div class="page-header">
+    <h1 class="page-title">My Profile</h1>
+    <p class="page-subtitle">Manage your account and settings.</p>
+  </div>
+
+  <div class="profile-layout">
+
+    <!-- Profile Card -->
+    <div class="profile-sidebar-card">
+      <div class="profile-avatar-wrap">
+        <img src="{{ user.avatar_url }}" alt="{{ user.display_name }}" class="profile-avatar" id="profileAvatar">
+        <div class="profile-avatar-overlay">
+          <i class="bi bi-camera-fill"></i>
+        </div>
+      </div>
+      <h2 class="profile-display-name">{{ user.get_full_name }}</h2>
+      <p class="profile-email">{{ user.email }}</p>
+      <p class="profile-member-since">Member since {{ user.date_joined|date:"M Y" }}</p>
+    </div>
+
+    <div class="profile-forms">
+
+      <!-- Update profile -->
+      <div class="lj-card">
+        <div class="lj-card-header">
+          <h3 class="lj-card-title"><i class="bi bi-person-fill me-2"></i>Personal Details</h3>
+        </div>
+        <form method="post" action="{% url 'accounts:profile' %}">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="profile">
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label">First Name</label>
+              <input type="text" name="first_name" class="lj-input" value="{{ profile_form.first_name.value|default:'' }}" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Last Name</label>
+              <input type="text" name="last_name" class="lj-input" value="{{ profile_form.last_name.value|default:'' }}" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Username</label>
+            <input type="text" name="username" class="lj-input" value="{{ profile_form.username.value|default:'' }}" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Bio</label>
+            <textarea name="bio" class="lj-input" rows="3" placeholder="Tell your story…">{{ profile_form.bio.value|default:'' }}</textarea>
+          </div>
+          <button type="submit" class="btn-primary-sm">Save Changes</button>
+        </form>
+      </div>
+
+      <!-- Change profile picture -->
+      <div class="lj-card">
+        <div class="lj-card-header">
+          <h3 class="lj-card-title"><i class="bi bi-camera-fill me-2"></i>Profile Picture</h3>
+        </div>
+        <form method="post" action="{% url 'accounts:profile' %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="picture">
+          <div class="form-group">
+            <label class="form-label">Upload new photo (max 10 MB)</label>
+            <input type="file" name="picture" class="lj-input-file" accept="image/jpeg,image/png,image/webp" id="pictureInput">
+          </div>
+          <button type="submit" class="btn-primary-sm">Upload Photo</button>
+        </form>
+      </div>
+
+      <!-- Change password -->
+      <div class="lj-card">
+        <div class="lj-card-header">
+          <h3 class="lj-card-title"><i class="bi bi-lock-fill me-2"></i>Change Password</h3>
+        </div>
+        <form method="post" action="{% url 'accounts:profile' %}">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="password">
+          {% for field in password_form %}
+          <div class="form-group">
+            <label class="form-label">{{ field.label }}</label>
+            <input type="password" name="{{ field.html_name }}" class="lj-input {% if field.errors %}is-invalid{% endif %}" required>
+            {% if field.errors %}<div class="field-error">{{ field.errors.0 }}</div>{% endif %}
+          </div>
+          {% endfor %}
+          <button type="submit" class="btn-primary-sm">Change Password</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

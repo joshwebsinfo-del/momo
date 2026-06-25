@@ -1,0 +1,95 @@
+{% extends "accounts/auth_base.html" %}
+
+{% block title %}Create Account — Love Journey{% endblock %}
+
+{% block auth_content %}
+<div class="auth-header">
+  <h1 class="auth-title">Begin your journey ❤️</h1>
+  <p class="auth-subtitle">This space is exclusively for two. Create your account below.</p>
+</div>
+
+{% if form.errors %}
+<div class="auth-error-banner">
+  <i class="bi bi-exclamation-circle-fill me-2"></i>
+  {% for field, errors in form.errors.items %}
+    {% for error in errors %}{{ error }}{% if not forloop.last %} · {% endif %}{% endfor %}
+  {% endfor %}
+</div>
+{% endif %}
+
+<form method="post" action="{% url 'accounts:register' %}" class="auth-form" id="registerForm">
+  {% csrf_token %}
+
+  <div class="form-row-2">
+    <div class="form-group">
+      <label class="form-label">First Name</label>
+      <input type="text" name="first_name" class="lj-input {% if form.first_name.errors %}is-invalid{% endif %}"
+             placeholder="First" value="{{ form.first_name.value|default:'' }}" required>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Last Name</label>
+      <input type="text" name="last_name" class="lj-input {% if form.last_name.errors %}is-invalid{% endif %}"
+             placeholder="Last" value="{{ form.last_name.value|default:'' }}" required>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Email Address</label>
+    <div class="input-icon-wrap">
+      <i class="bi bi-envelope-fill input-icon"></i>
+      <input type="email" name="email" class="lj-input {% if form.email.errors %}is-invalid{% endif %}"
+             placeholder="your@email.com" value="{{ form.email.value|default:'' }}" required autocomplete="email">
+    </div>
+    {% if form.email.errors %}
+    <div class="field-error">{{ form.email.errors.0 }}</div>
+    {% endif %}
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Username</label>
+    <div class="input-icon-wrap">
+      <i class="bi bi-person-fill input-icon"></i>
+      <input type="text" name="username" class="lj-input {% if form.username.errors %}is-invalid{% endif %}"
+             placeholder="username" value="{{ form.username.value|default:'' }}" required autocomplete="username">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Password</label>
+    <div class="input-icon-wrap">
+      <i class="bi bi-lock-fill input-icon"></i>
+      <input type="password" name="password1" id="pw1" class="lj-input {% if form.password1.errors %}is-invalid{% endif %}"
+             placeholder="At least 8 characters" required autocomplete="new-password">
+      <button type="button" class="btn-toggle-pw" onclick="togglePassword('pw1', this)">
+        <i class="bi bi-eye-fill"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Confirm Password</label>
+    <div class="input-icon-wrap">
+      <i class="bi bi-lock-fill input-icon"></i>
+      <input type="password" name="password2" id="pw2" class="lj-input {% if form.password2.errors %}is-invalid{% endif %}"
+             placeholder="Repeat password" required autocomplete="new-password">
+      <button type="button" class="btn-toggle-pw" onclick="togglePassword('pw2', this)">
+        <i class="bi bi-eye-fill"></i>
+      </button>
+    </div>
+    {% if form.password2.errors %}<div class="field-error">{{ form.password2.errors.0 }}</div>{% endif %}
+  </div>
+
+  <button type="submit" class="btn-auth-primary">
+    Create Account <i class="bi bi-heart-fill ms-2"></i>
+  </button>
+</form>
+
+<div class="auth-alt-action">
+  Already have an account? <a href="{% url 'accounts:login' %}" class="auth-link-bold">Sign in</a>
+</div>
+
+<div class="auth-private-note">
+  <i class="bi bi-shield-lock-fill me-1"></i>
+  This platform is private. Only pre-approved accounts may register.
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "accounts/auth_base.html" %}
+
+{% block title %}Sign In — Love Journey{% endblock %}
+
+{% block auth_content %}
+<div class="auth-header">
+  <h1 class="auth-title">Welcome back ❤️</h1>
+  <p class="auth-subtitle">Sign in to continue your journey.</p>
+</div>
+
+{% if form.non_field_errors %}
+<div class="alert alert-danger">{{ form.non_field_errors }}</div>
+{% endif %}
+
+<form method="post" action="{% url 'accounts:login' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" class="auth-form" id="loginForm">
+  {% csrf_token %}
+
+  <div class="form-group">
+    <label for="id_username" class="form-label">Email Address</label>
+    <div class="input-icon-wrap">
+      <i class="bi bi-envelope-fill input-icon"></i>
+      <input
+        type="email"
+        name="username"
+        id="id_username"
+        class="lj-input {% if form.username.errors %}is-invalid{% endif %}"
+        placeholder="your@email.com"
+        autocomplete="email"
+        required
+        value="{{ form.username.value|default:'' }}"
+      >
+    </div>
+    {% if form.username.errors %}<div class="invalid-feedback d-block">{{ form.username.errors.0 }}</div>{% endif %}
+  </div>
+
+  <div class="form-group">
+    <label for="id_password" class="form-label">Password</label>
+    <div class="input-icon-wrap">
+      <i class="bi bi-lock-fill input-icon"></i>
+      <input
+        type="password"
+        name="password"
+        id="id_password"
+        class="lj-input {% if form.password.errors %}is-invalid{% endif %}"
+        placeholder="••••••••"
+        autocomplete="current-password"
+        required
+      >
+      <button type="button" class="btn-toggle-pw" onclick="togglePassword('id_password', this)">
+        <i class="bi bi-eye-fill"></i>
+      </button>
+    </div>
+    {% if form.password.errors %}<div class="invalid-feedback d-block">{{ form.password.errors.0 }}</div>{% endif %}
+  </div>
+
+  <div class="form-group-row">
+    <a href="{% url 'accounts:password_reset' %}" class="auth-link">Forgot password?</a>
+  </div>
+
+  <button type="submit" class="btn-auth-primary" id="loginBtn">
+    Sign In <i class="bi bi-arrow-right ms-2"></i>
+  </button>
+</form>
+
+<div class="auth-alt-action">
+  Don't have an account? <a href="{% url 'accounts:register' %}" class="auth-link-bold">Join the journey</a>
+</div>
+{% endblock %}

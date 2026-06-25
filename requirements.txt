@@ -1,0 +1,46 @@
+# Love Journey — Python Dependencies
+# Django core
+Django>=5.0,<6.0
+djangorestframework>=3.15
+django-cors-headers>=4.3
+
+# Database
+psycopg2-binary>=2.9
+
+# Environment
+python-decouple>=3.8
+
+# Supabase
+supabase>=2.0
+storage3>=0.7
+
+# Image handling
+Pillow>=10.0
+
+# Static files
+whitenoise>=6.6
+
+# WSGI server
+gunicorn>=21.0
+
+# Rich text editor
+django-ckeditor>=6.7
+
+# Rate limiting
+django-ratelimit>=4.1
+
+# Task queue (scheduled notes)
+celery>=5.3
+redis>=5.0
+django-celery-beat>=2.6
+
+# Charts & PDF export
+reportlab>=4.2
+
+# Utilities
+django-extensions>=3.2
+python-dateutil>=2.9
+
+# Testing
+coverage>=7.4
+factory-boy>=3.3
