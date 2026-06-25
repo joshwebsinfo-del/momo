@@ -25,3 +25,18 @@ CSRF_TRUSTED_ORIGINS = [
     'https://lovejourney.app',
     'https://www.lovejourney.app',
 ]
+
+import urllib.parse
+db_url = config('DATABASE_URL', default='')
+if db_url:
+    parsed_db = urllib.parse.urlparse(db_url)
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': parsed_db.path.lstrip('/') or 'postgres',
+        'USER': parsed_db.username,
+        'PASSWORD': parsed_db.password,
+        'HOST': parsed_db.hostname,
+        'PORT': parsed_db.port or '6543',
+        'OPTIONS': {'sslmode': 'require'},
+        'CONN_MAX_AGE': 60,
+    }
