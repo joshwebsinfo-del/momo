@@ -26,3 +26,22 @@ class DatabaseConfigTests(SimpleTestCase):
             self.assertEqual(config['HOST'], 'localhost')
             self.assertEqual(config['PORT'], '5432')
             self.assertEqual(config['NAME'], 'dbname')
+
+    def test_supabase_host_uses_project_host_when_value_is_prefixed_with_postgres(self):
+        with patch('config.settings.base.config') as mock_config:
+            mock_config.side_effect = lambda name, default='', cast=None: {
+                'DATABASE_URL': '',
+                'SUPABASE_DB_NAME': 'postgres',
+                'SUPABASE_DB_USER': '',
+                'SUPABASE_DB_PASSWORD': 'secret',
+                'SUPABASE_DB_HOST': 'postgres.aywnwxvaptmmktjtpmfv',
+                'SUPABASE_DB_PORT': '5432',
+                'SUPABASE_URL': 'https://aywnwxvaptmmktjtpmfv.supabase.co',
+                'SECRET_KEY': 'test',
+                'DEBUG': False,
+                'ALLOWED_HOSTS': 'localhost',
+            }.get(name, default)
+
+            config = get_database_config()
+
+            self.assertEqual(config['HOST'], 'db.aywnwxvaptmmktjtpmfv.supabase.co')

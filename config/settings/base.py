@@ -132,6 +132,21 @@ def get_supabase_user():
     return 'postgres'
 
 
+def normalize_supabase_host(host: str) -> str:
+    host = (host or '').strip()
+    if not host:
+        return host
+
+    if host.startswith('postgres.'):
+        project_ref = host.split('.', 1)[1]
+        return f"db.{project_ref}.supabase.co"
+
+    if host.startswith('db.') and host.endswith('.supabase.co'):
+        return host
+
+    return host
+
+
 def get_database_config():
     db_url = config('DATABASE_URL', default='').strip()
     if db_url:
@@ -141,7 +156,7 @@ def get_database_config():
             parsed = None
 
         if parsed and parsed.scheme.startswith('postgres'):
-            host = parsed.hostname or config('SUPABASE_DB_HOST', default='localhost') or 'localhost'
+            host = normalize_supabase_host(parsed.hostname or config('SUPABASE_DB_HOST', default='localhost') or 'localhost')
             port = config('SUPABASE_DB_PORT', default='5432') or '5432'
             try:
                 parsed_port = parsed.port
@@ -166,7 +181,7 @@ def get_database_config():
         'NAME': config('SUPABASE_DB_NAME', default='postgres') or 'postgres',
         'USER': get_supabase_user(),
         'PASSWORD': config('SUPABASE_DB_PASSWORD', default=''),
-        'HOST': config('SUPABASE_DB_HOST', default='localhost'),
+        'HOST': normalize_supabase_host(config('SUPABASE_DB_HOST', default='localhost')),
         'PORT': config('SUPABASE_DB_PORT', default='5432') or '5432',
         'OPTIONS': {'sslmode': 'require'},
         'CONN_MAX_AGE': 60,
