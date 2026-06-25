@@ -118,11 +118,11 @@ ASGI_APPLICATION = 'config.asgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('SUPABASE_DB_NAME', default='postgres'),
-        'USER': config('SUPABASE_DB_USER', default='postgres'),
+        'NAME': config('SUPABASE_DB_NAME', default='postgres') or 'postgres',
+        'USER': config('SUPABASE_DB_USER', default='postgres') or 'postgres',
         'PASSWORD': config('SUPABASE_DB_PASSWORD', default=''),
         'HOST': config('SUPABASE_DB_HOST', default='localhost'),
-        'PORT': config('SUPABASE_DB_PORT', default='5432'),
+        'PORT': config('SUPABASE_DB_PORT', default='5432') or '5432',
         'OPTIONS': {
             'sslmode': 'require',
         },
