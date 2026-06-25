@@ -14,8 +14,7 @@ from voice_messages.models import VoiceMessage
 from timeline.models import TimelineEvent
 from goals.models import Goal
 from countdowns.models import Countdown
-from accounts.models import CoupleSettings
-
+from accounts.models import User
 
 @method_decorator(login_required, name='dispatch')
 class StatisticsView(View):
@@ -23,7 +22,6 @@ class StatisticsView(View):
 
     def get(self, request):
         today = timezone.now().date()
-        couple_settings = CoupleSettings.get_settings()
 
         # Core counts
         memory_count = Memory.objects.count()
@@ -37,8 +35,8 @@ class StatisticsView(View):
 
         # Days together
         days_together = 0
-        if couple_settings and couple_settings.relationship_start_date:
-            days_together = (today - couple_settings.relationship_start_date).days
+        if request.user.is_authenticated and hasattr(request.user, 'created_at'):
+            days_together = (today - request.user.created_at.date()).days
 
         # Memories by category (for pie/doughnut chart)
         memories_by_category = list(
@@ -82,7 +80,6 @@ class StatisticsView(View):
             'goals_completed': goals_completed,
             'goals_active': goals_active,
             'days_together': days_together,
-            'couple_settings': couple_settings,
             # JSON for Chart.js
             'category_labels_json': json.dumps(category_labels),
             'category_data_json': json.dumps(category_data),

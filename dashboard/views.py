@@ -2,6 +2,12 @@ from datetime import date
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
+from django.shortcuts import render, redirect
+
+def landing_view(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard:home')
+    return render(request, 'landing.html')
 
 from checkins.models import DailyCheckIn
 from countdowns.models import Countdown
