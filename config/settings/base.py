@@ -58,6 +58,7 @@ LOCAL_APPS = [
     'statistics_app.apps.StatisticsAppConfig',
     'notifications.apps.NotificationsConfig',
     'api.apps.ApiConfig',
+    'reminders',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
