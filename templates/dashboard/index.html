@@ -1,0 +1,280 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard — Love Journey ❤️{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Good {% now "H" as hour %}{% if hour|add:"0" < 12 %}morning{% elif hour|add:"0" < 18 %}afternoon{% else %}evening{% endif %}, {{ user.display_name }} ❤️</h1>
+      <p class="page-subtitle">Here's your love story at a glance.</p>
+    </div>
+    <div class="page-header-actions">
+      <a href="{% url 'memories:create' %}" class="btn-primary-sm">
+        <i class="bi bi-plus-lg"></i> Add Memory
+      </a>
+    </div>
+  </div>
+
+  <!-- HERO STATS ROW -->
+  <div class="stats-row">
+    <div class="stat-card stat-card--primary">
+      <div class="stat-card-icon">💞</div>
+      <div class="stat-card-body">
+        <div class="stat-card-value" id="daysCounter" data-target="{{ days_together }}">{{ days_together }}</div>
+        <div class="stat-card-label">Days Together</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-icon">📸</div>
+      <div class="stat-card-body">
+        <div class="stat-card-value">{{ memory_count }}</div>
+        <div class="stat-card-label">Memories</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-icon">💌</div>
+      <div class="stat-card-body">
+        <div class="stat-card-value">{{ note_count }}</div>
+        <div class="stat-card-label">Love Notes</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-icon">🎙️</div>
+      <div class="stat-card-body">
+        <div class="stat-card-value">{{ voice_count }}</div>
+        <div class="stat-card-label">Voice Messages</div>
+      </div>
+    </div>
+    {% if next_anniversary %}
+    <div class="stat-card stat-card--rose">
+      <div class="stat-card-icon">🥂</div>
+      <div class="stat-card-body">
+        <div class="stat-card-value">{{ next_anniversary|timeuntil|truncatechars:8 }}</div>
+        <div class="stat-card-label">Next Anniversary</div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="dashboard-grid">
+
+    <!-- ON THIS DAY -->
+    {% if on_this_day %}
+    <div class="dash-card dash-card--full">
+      <div class="dash-card-header">
+        <h2 class="dash-card-title">📅 On This Day</h2>
+        <span class="dash-card-date">{{ today|date:"F j" }}</span>
+      </div>
+      <div class="on-this-day-list">
+        {% for memory in on_this_day %}
+        <a href="{% url 'memories:detail' memory.pk %}" class="otd-item">
+          {% if memory.photo_url %}
+          <img src="{{ memory.photo_url }}" alt="{{ memory.title }}" class="otd-img">
+          {% else %}
+          <div class="otd-img otd-img--placeholder">📸</div>
+          {% endif %}
+          <div class="otd-body">
+            <div class="otd-year">{{ memory.memory_date|date:"Y" }} · {{ memory.memory_date|timesince }} ago</div>
+            <div class="otd-title">{{ memory.title }}</div>
+            {% if memory.location %}<div class="otd-loc"><i class="bi bi-geo-alt-fill"></i> {{ memory.location }}</div>{% endif %}
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- RECENT MEMORIES -->
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <h2 class="dash-card-title">📸 Recent Memories</h2>
+        <a href="{% url 'memories:gallery' %}" class="dash-card-link">See all</a>
+      </div>
+      {% if recent_memories %}
+      <div class="memory-mini-grid">
+        {% for memory in recent_memories %}
+        <a href="{% url 'memories:detail' memory.pk %}" class="memory-mini-card">
+          {% if memory.photo_url %}
+          <img src="{{ memory.photo_url }}" alt="{{ memory.title }}" class="memory-mini-img">
+          {% elif memory.video_url %}
+          <div class="memory-mini-img memory-mini-img--video"><i class="bi bi-play-circle-fill"></i></div>
+          {% else %}
+          <div class="memory-mini-img memory-mini-img--placeholder">📸</div>
+          {% endif %}
+          <div class="memory-mini-body">
+            <div class="memory-mini-title">{{ memory.title|truncatechars:30 }}</div>
+            <div class="memory-mini-date">{{ memory.memory_date|date:"M j, Y" }}</div>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state-sm">
+        <p>No memories yet. <a href="{% url 'memories:create' %}">Create your first one!</a></p>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- LOVE NOTES INBOX -->
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <h2 class="dash-card-title">💌 Love Notes</h2>
+        <a href="{% url 'notes:inbox' %}" class="dash-card-link">Inbox</a>
+      </div>
+      {% if unread_notes %}
+      <div class="notes-preview-list">
+        {% for note in unread_notes %}
+        <a href="{% url 'notes:detail' note.pk %}" class="note-preview-item">
+          <div class="note-preview-icon">💌</div>
+          <div class="note-preview-body">
+            <div class="note-preview-title">{{ note.title|truncatechars:35 }}</div>
+            <div class="note-preview-from">from {{ note.sender.display_name }}</div>
+          </div>
+          <div class="note-preview-date">{{ note.created_at|timesince }} ago</div>
+        </a>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state-sm">
+        <p>No notes yet. <a href="{% url 'notes:compose' %}">Write one now!</a></p>
+      </div>
+      {% endif %}
+      <div class="dash-card-footer">
+        <a href="{% url 'notes:compose' %}" class="btn-primary-sm w-100">
+          <i class="bi bi-pencil-heart"></i> Write a Note
+        </a>
+      </div>
+    </div>
+
+    <!-- ACTIVE GOALS -->
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <h2 class="dash-card-title">🎯 Active Goals</h2>
+        <a href="{% url 'goals:list' %}" class="dash-card-link">See all</a>
+      </div>
+      {% if active_goals %}
+      <div class="goals-preview-list">
+        {% for goal in active_goals %}
+        <a href="{% url 'goals:detail' goal.pk %}" class="goal-preview-item">
+          <div class="goal-preview-header">
+            <span class="goal-preview-title">{{ goal.title|truncatechars:30 }}</span>
+            <span class="goal-preview-pct">{{ goal.progress_percent }}%</span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" style="width: {{ goal.progress_percent }}%"></div>
+          </div>
+          <div class="goal-preview-amounts">
+            <span>${{ goal.current_amount|floatformat:0 }}</span>
+            <span class="text-muted">/ ${{ goal.target_amount|floatformat:0 }}</span>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state-sm">
+        <p>No goals yet. <a href="{% url 'goals:create' %}">Set a goal!</a></p>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- UPCOMING COUNTDOWNS -->
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <h2 class="dash-card-title">⏳ Countdowns</h2>
+        <a href="{% url 'countdowns:list' %}" class="dash-card-link">See all</a>
+      </div>
+      {% if upcoming_countdowns %}
+      <div class="countdown-preview-list">
+        {% for cd in upcoming_countdowns %}
+        <div class="countdown-preview-item">
+          <div class="cd-emoji">{{ cd.cover_emoji }}</div>
+          <div class="cd-body">
+            <div class="cd-title">{{ cd.title }}</div>
+            <div class="cd-date">{{ cd.target_date|date:"M j, Y" }}</div>
+          </div>
+          <div class="cd-days {% if cd.days_remaining <= 7 %}cd-days--urgent{% endif %}">
+            <span class="cd-days-num">{{ cd.days_remaining }}</span>
+            <span class="cd-days-label">days</span>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state-sm">
+        <p>No countdowns. <a href="{% url 'countdowns:create' %}">Add one!</a></p>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- RECENT TIMELINE -->
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <h2 class="dash-card-title">⏱️ Timeline</h2>
+        <a href="{% url 'timeline:timeline' %}" class="dash-card-link">Full timeline</a>
+      </div>
+      {% if recent_timeline %}
+      <div class="timeline-mini">
+        {% for event in recent_timeline %}
+        <div class="timeline-mini-item">
+          <div class="tm-icon">{{ event.event_icon }}</div>
+          <div class="tm-body">
+            <div class="tm-title">{{ event.title|truncatechars:35 }}</div>
+            <div class="tm-date">{{ event.event_date|date:"M j, Y" }}</div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state-sm">
+        <p>Start your story. <a href="{% url 'timeline:create' %}">Add an event!</a></p>
+      </div>
+      {% endif %}
+    </div>
+
+  </div><!-- /dashboard-grid -->
+
+  <!-- QUICK ACTIONS -->
+  <div class="quick-actions-row">
+    <h2 class="section-title-sm">Quick Actions</h2>
+    <div class="quick-actions-grid">
+      <a href="{% url 'memories:create' %}" class="quick-action-btn">
+        <i class="bi bi-camera-fill"></i>
+        <span>Add Memory</span>
+      </a>
+      <a href="{% url 'notes:compose' %}" class="quick-action-btn">
+        <i class="bi bi-pencil-heart-fill"></i>
+        <span>Write a Note</span>
+      </a>
+      <a href="{% url 'voice_messages:record' %}" class="quick-action-btn">
+        <i class="bi bi-mic-fill"></i>
+        <span>Record Voice</span>
+      </a>
+      <a href="{% url 'timeline:create' %}" class="quick-action-btn">
+        <i class="bi bi-clock-history"></i>
+        <span>Add Event</span>
+      </a>
+      <a href="{% url 'goals:create' %}" class="quick-action-btn">
+        <i class="bi bi-trophy-fill"></i>
+        <span>New Goal</span>
+      </a>
+      <a href="{% url 'countdowns:create' %}" class="quick-action-btn">
+        <i class="bi bi-stopwatch-fill"></i>
+        <span>New Countdown</span>
+      </a>
+      <a href="{% url 'playlists:add' %}" class="quick-action-btn">
+        <i class="bi bi-music-note-beamed"></i>
+        <span>Add Song</span>
+      </a>
+      <a href="{% url 'statistics_app:statistics' %}" class="quick-action-btn">
+        <i class="bi bi-bar-chart-fill"></i>
+        <span>Statistics</span>
+      </a>
+    </div>
+  </div>
+
+</div><!-- /page-wrapper -->
+{% endblock %}
