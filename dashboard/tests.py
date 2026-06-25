@@ -1,7 +1,8 @@
 from unittest.mock import patch
 
 from django.contrib.auth import get_user_model
-from django.test import RequestFactory, TestCase
+from django.test import RequestFactory, TestCase, override_settings
+from django.urls import reverse
 
 from dashboard.views import DashboardView
 
@@ -19,3 +20,11 @@ class DashboardViewTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Your love dashboard')
+
+    @override_settings(ROOT_URLCONF='config.urls', ALLOWED_HOSTS=['testserver'])
+    def test_dashboard_template_renders_without_reverse_lookup_errors(self):
+        self.client.force_login(self.user)
+        response = self.client.get('/dashboard/')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Dashboard')

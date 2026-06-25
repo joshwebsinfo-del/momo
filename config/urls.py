@@ -23,9 +23,12 @@ urlpatterns = [
     path('notes/', include('notes.urls')),
     path('goals/', include('goals.urls')),
     path('countdowns/', include('countdowns.urls')),
+    path('checkins/', include('checkins.urls')),
+    path('reminders/', include('reminders.urls')),
     path('voice-messages/', include('voice_messages.urls')),
     path('playlist/', include('playlists.urls')),
     path('statistics/', include('statistics_app.urls')),
+    path('messages/', include('private_messages.urls')),
     path('notifications/', include('notifications.urls')),
 
     # REST API
